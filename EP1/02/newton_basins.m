@@ -6,7 +6,8 @@ function newton_basins(f,n)
     n  = length(f);
     df = (f.*(n-1:-1:0))(1:end-1);
 
-    fid = fopen('output.txt', 'w');
+    fid = fopen('output.txt', 'W');
+    :w
     for x=(-10:dx:10)
         for y =(-10:dx:10)
             [root, converged] = newton(f, df, x+y*i);
