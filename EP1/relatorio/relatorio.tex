@@ -231,4 +231,18 @@ Não, os erros de arredondamento podem fazer com que a ordem das somas faça dif
 \end{proof}
 \end{homeworkProblem}
 
+\section{Parte 3: Exemplos}
+
+Para ilustrar o uso do método desenvolvido na parte 3 do EP. Escolhemos gerar as \textit{Newton Basins} para um polinômio e as expansões de Taylor deste polinômio em torno do ponto 0. Para isso, escolhemos a função $f(x) = x^6 + (3-7i)x^5 + (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$ e rodamos nosso EP nela.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{original} \end{center}
+E, como planejado, repetimos o processo para as expansões de Taylor de diversos graus deste polinômio. Denotaremos a $i$-ésima expansão por $f_i(x)$. Primeiro, expandimos em grau 5, ou seja $f_5(x) = (3-7i)x^5 + (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_5} \end{center}
+Depois $f_4(x) = (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_4} \end{center}
+Depois $f_3(x) = (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_3} \end{center}
+Seguido de $f_2(x) = (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_2} \end{center}
+E, finalmente $f_1(x) = (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_1} \end{center}
 \end{document}
