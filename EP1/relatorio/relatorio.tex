@@ -245,22 +245,34 @@ Outro fator que impactou bstante a eficiência do código foi o tratamento de en
 
 Para ilustrar o uso do método desenvolvido na parte 3 do EP. Escolhemos gerar as \textit{Newton Basins} para um polinômio e as expansões de Taylor deste polinômio em torno do ponto 0. Para isso, escolhemos a função $f(x) = x^6 + (3-7i)x^5 + (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$ e rodamos nosso EP nela.  
 \begin{center}\includegraphics[width=0.75\columnwidth]{original} \end{center}
-E, como planejado, repetimos o processo para as expansões de Taylor de diversos graus deste polinômio. Denotaremos a $i$-ésima expansão por $f_i(x)$. Primeiro, expandimos em grau 5, ou seja $f_5(x) = (3-7i)x^5 + (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
-\begin{center}\includegraphics[width=0.75\columnwidth]{expand_5} \end{center}
-Depois $f_4(x) = (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
-\begin{center}\includegraphics[width=0.75\columnwidth]{expand_4} \end{center}
-Depois $f_3(x) = (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
-\begin{center}\includegraphics[width=0.75\columnwidth]{expand_3} \end{center}
+E, como planejado, repetimos o processo para as expansões de Taylor de diversos graus deste polinômio. Denotaremos a $i$-ésima expansão por $f_i(x)$. Primeiro, expandimos em grau 1, ou seja $f_1(x) = (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_1} \end{center}
 Seguido de $f_2(x) = (-26+40i)x^2 + (52+52i)x$.  
 \begin{center}\includegraphics[width=0.75\columnwidth]{expand_2} \end{center}
-E, finalmente $f_1(x) = (52+52i)x$.  
-\begin{center}\includegraphics[width=0.75\columnwidth]{expand_1} \end{center}
+Depois $f_3(x) = (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_3} \end{center}
+Depois $f_4(x) = (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_4} \end{center}
+E, finalmente, $f_5(x) = (3-7i)x^5 + (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$.  
+\begin{center}\includegraphics[width=0.75\columnwidth]{expand_5} \end{center}
 
 \section{Parte 3: Encontrando todas as raízes de funções}
 Novamente aqui há poucas decisões de projeto a serem feitas. O enunciado já descreve o algoritmo e os critérios para as decisões, restando pouco a ser feito que não implementar.  
 
 Assumimos que as funções anônimas eram vetorizadas, para que pudessem ser facilmente aplicadas em diversos pontos. Além disso, utilizamos o método descrito apenas nos intervalos nos quais nenhuma das bordas era uma raíz da função. Isso descarta possíveis pontos, mas interpretamos como uma limitação do método em si, por ser sensível à escolha do $\textit{ninter}$.  
 
-O que é uma solução simples para tratar o caso em que raízes da função estão entre os pontos da primeira amostragem é retornar a união das raízes encontradas ao se chamar com $\textit{ninter}$ e $\textit{ninter} + 1$.
+O que é uma solução simples para tratar o caso em que raízes da função estão entre os pontos da primeira amostragem é retornar a união das raízes encontradas ao se chamar com $\textit{ninter}$ e $\textit{ninter} + 1$.  
+
+Isto resolve pois é impossível que um valor de $x$ seja borda de intervalos em ambos os casos. Se fosse, existiriam inteirom $0 \leq k \leq n$ e $0 \leq t \leq n+1$ tais que
+$$ a + k*(b-a)/n = a + t(b-a)/(n+1) \text{, ou seja,}$$
+$$(n+1)k = nt$$
+Mas este inteiro $(n+1)k$, por ser múltiplo de $n$, é um múltiplo de $\mathrm{mmc}(n+1,n) = n(n+1)$. Mas isso implica que $k \geq n$, o que nos permite afirmar que este ponto em comum é o próprio $b$. Assim, tratamos todos os possíveis pontos que são raíz no interior do intervalo, sem piora na complexidade.  
+
+O método se mostrou robusto, encontrando todas as raízes de ambas verificações dadas no enunciado. Para testar, pode-se abrir o \textit{octave} na pasta 03 e rodar 
+\begin{equation*} \begin{split}
+    \texttt{find\_all\_roots(@(t)./sinc(t./pi),} \\
+    \texttt{@(t)(t.*cos(t)-sin(t))./(t.*t)),} \\
+    \texttt{-10, 10, 10**(-5), 1\_\_ )}
+\end{split} \end{equation*}.
 \end{document}
 
