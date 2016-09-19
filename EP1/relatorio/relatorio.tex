@@ -270,7 +270,7 @@ Mas este inteiro $(n+1)k$, por ser múltiplo de $n$, é um múltiplo de $\mathrm
 
 O método se mostrou robusto, encontrando todas as raízes de ambas verificações dadas no enunciado. Para testar, pode-se abrir o \textit{octave} na pasta 03 e rodar 
 \begin{equation*} \begin{split}
-    \texttt{find\_all\_roots(@(t)./sinc(t./pi),} \\
+    \texttt{find\_all\_roots(@(t)(sinc(t./pi),} \\
     \texttt{@(t)(t.*cos(t)-sin(t))./(t.*t)),} \\
     \texttt{-10, 10, 10**(-5), 100)}
 \end{split} \end{equation*}.
