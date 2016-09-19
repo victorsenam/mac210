@@ -232,7 +232,16 @@ Não, os erros de arredondamento podem fazer com que a ordem das somas faça dif
 \end{proof}
 \end{homeworkProblem}
 
-\section{Parte 3: Exemplos}
+\section{Parte 2: Bacias de Newton}
+Para se obter as bacias é necessário aplicar o método de Newton nos $n^2$ pontos do grid criado no plano complexo. Isso ocorre devido à restrição das funções que deveriam ser implementadas descritas no enunciado. Tivesse as iteraçoes do método acesso aos pontos já calculados, poderia se aproveitar desta informação e ter uma implementação muito mais eficiente.  
+
+Assim, o que buscamos foi otimizar as iterações do método de Newton. Dado que os pontos iniciais e a função são quem ditam a taxa de convergência do método, e, além disto, estão fixados pela instância do problema, nossos esforços para melhorar a performance se tornaram mais restritos ainda e consistem em usufruir das vantagens da vetorização em \textsc{Matlab}.  
+
+Felizmente, tanto a avaliação do polinõmio em um ponto quanto a derivação dele são operadores lineares. Isso nos permitiu expressar ambos de forma sucienta. A avaliação se reduz a um produto interno com um vetor cuja $i$-ésima coordenada é $x^{n-1-i}$ e a derivação é o resultado de aplicar uma matriz diagonal no vetor de coeficientes, que em \textsc{Matlab} pode facilmente ser implementado através de um produto componente a componente entre os vetores.
+
+Outro fator que impactou bstante a eficiência do código foi o tratamento de entrada e saída. O comportamento padrão da função \textsc{fprintf} é de limpar o buffer de saída a cada chamada da função. Isso causou um grande \textit{overhead} no programa, pois eram adicionados poucos caracteres a cada chamada desta função, o que faz a chamada acontecer várias vezes para que toda a saída seja impressa. Assim, houve notória melhoria ao mudar a flag passada à função \textsc{fopen} para que o buffer de saída fosse descarregado apenas ao final do programa.
+
+\subsection{Exemplos}
 
 Para ilustrar o uso do método desenvolvido na parte 3 do EP. Escolhemos gerar as \textit{Newton Basins} para um polinômio e as expansões de Taylor deste polinômio em torno do ponto 0. Para isso, escolhemos a função $f(x) = x^6 + (3-7i)x^5 + (-20-15i)x^4 + (-40+20i)x^3 + (-26+40i)x^2 + (52+52i)x$ e rodamos nosso EP nela.  
 \begin{center}\includegraphics[width=0.75\columnwidth]{original} \end{center}
@@ -246,4 +255,12 @@ Seguido de $f_2(x) = (-26+40i)x^2 + (52+52i)x$.
 \begin{center}\includegraphics[width=0.75\columnwidth]{expand_2} \end{center}
 E, finalmente $f_1(x) = (52+52i)x$.  
 \begin{center}\includegraphics[width=0.75\columnwidth]{expand_1} \end{center}
+
+\section{Parte 3: Encontrando todas as raízes de funções}
+Novamente aqui há poucas decisões de projeto a serem feitas. O enunciado já descreve o algoritmo e os critérios para as decisões, restando pouco a ser feito que não implementar.  
+
+Assumimos que as funções anônimas eram vetorizadas, para que pudessem ser facilmente aplicadas em diversos pontos. Além disso, utilizamos o método descrito apenas nos intervalos nos quais nenhuma das bordas era uma raíz da função. Isso descarta possíveis pontos, mas interpretamos como uma limitação do método em si, por ser sensível à escolha do $\textit{ninter}$.  
+
+O que é uma solução simples para tratar o caso em que raízes da função estão entre os pontos da primeira amostragem é retornar a união das raízes encontradas ao se chamar com $\textit{ninter}$ e $\textit{ninter} + 1$.
 \end{document}
+
